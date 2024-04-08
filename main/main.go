@@ -1,5 +1,12 @@
 package main
 
-func main() {
+import "net/http"
 
+func main() {
+	fs := http.FileServer(http.Dir("assets"))
+	http.Handle("/static/", http.StripPrefix("/static", fs))
+
+	//http.HandleFunc("/", indexPath)
+
+	http.ListenAndServe("", nil)
 }
