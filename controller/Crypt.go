@@ -1,10 +1,5 @@
 package hackathon
 
-import (
-	"fmt"
-	"math/rand"
-)
-
 func convStringByte(sentence string) []byte {
 	byteArray := []byte(sentence)
 	return byteArray
@@ -89,14 +84,12 @@ func crypt(sentence string, ranNumber int) string {
 	return turnHexa(finalValue * (len(finalTable) * ranNumber))
 }
 
-func FinalCrypt(sentence string) string {
+func FinalCrypt(sentence string, salt int) string {
 	inv := invertString(sentence)
 	cr := ""
-	ran := rand.Intn(999999999-1) + 1
-	fmt.Println(ran)
 	for i := 0; i < len(sentence); i++ {
-		cr += crypt(string(sentence[i]), ran)
-		cr += crypt(string(inv[i]), ran)
+		cr += crypt(string(sentence[i]), salt)
+		cr += crypt(string(inv[i]), salt)
 	}
 	return cr
 }
