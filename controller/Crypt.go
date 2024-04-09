@@ -85,7 +85,7 @@ func crypt(sentence string, ranNumber int) string {
 	return strconv.FormatInt(int64(finalValue*(len(finalTable)*power(ranNumber, 4))), 16)
 }
 
-func FinalCrypt(sentence string) string {
+func FinalCrypt(sentence string) (string, int) {
 	inv := invertString(sentence)
 	cr := ""
 	ran := rand.Intn(999999999-999999) + 999999
@@ -94,7 +94,7 @@ func FinalCrypt(sentence string) string {
 		cr += crypt(string(sentence[i]), ran)
 		cr += crypt(string(inv[i]), ran)
 	}
-	return gatherHexaToOne(cr)
+	return gatherHexaToOne(cr), ran
 }
 
 func averageHexa(hexa1 string, hexa2 string) string {
