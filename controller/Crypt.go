@@ -106,7 +106,7 @@ func averageHexa(hexa1 string, hexa2 string) string {
 		for j := 0; j < len(hexaChar); j++ {
 			if hexaChar[j] == byte(c) {
 				ch1 = j
-			} else if hexaChar[j] == hexa2[i] {
+			} else if i < len(hexa2) && hexaChar[j] == hexa2[i] {
 				ch2 = j
 			}
 		}
