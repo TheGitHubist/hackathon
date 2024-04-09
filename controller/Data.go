@@ -43,7 +43,7 @@ func Init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	data, err := db.Prepare("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL UNIQUE, password TEXT NOT NULL, uuid TEXT NOT NULL UNIQUE)")
+	data, err := db.Prepare("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL UNIQUE, password TEXT NOT NULL, salt INTEGER NOT NULL, uuid TEXT NOT NULL UNIQUE)")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -53,7 +53,7 @@ func Init() {
 		log.Fatal(err)
 	}
 	data.Exec()
-	data, err = db.Prepare("CREATE TABLE IF NOT EXISTS backOfficer(id INTEGER PRIMARY KEY AUTOINCREMENT, backOffPass TEXT NOT NULL, accountID BLOB NOT NULL, FOREIGN KEY (accountID) REFERENCES user(id))")
+	data, err = db.Prepare("CREATE TABLE IF NOT EXISTS backOfficer(id INTEGER PRIMARY KEY AUTOINCREMENT, backOffPass TEXT NOT NULL, accountID BLOB NOT NULL, salt INTEGER NOT NULL, FOREIGN KEY (accountID) REFERENCES user(id))")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -66,7 +66,7 @@ func Init() {
 	defer data.Close()
 }
 
-func NewUser(email string, password int, uuid string) int {
+func NewUser(email string, password int, salt int, uuid string) int {
 
 	// returns 0 if everything's fine, 1 for pseudo or uuid not unique, 2 for another db error
 	db, err := sql.Open("sqlite3", "../databases/database.db")
@@ -80,11 +80,11 @@ func NewUser(email string, password int, uuid string) int {
 	defer rows.Close()
 	for rows.Next() {
 	}
-	data, err := db.Prepare("INSERT INTO user(email, password, uuid) VALUES (?, ?, ?)")
+	data, err := db.Prepare("INSERT INTO user(email, password, uuid) VALUES (?, ?, ?, ?)")
 	if err != nil {
 		log.Fatal(err)
 	}
-	data.Exec(email, password, uuid)
+	data.Exec(email, password, salt, uuid)
 	defer data.Close()
 	return 0
 }
@@ -104,17 +104,17 @@ func NewAdmin(password string, accountID int) int {
 	return 0
 }
 
-func NewBackOfficer(password string, accountID int) int {
+func NewBackOfficer(password string, salt int, accountID int) int {
 	// returns 0 if everything's fine, 1 for pseudo or uuid not unique, 2 for another db error
 	db, err := sql.Open("sqlite3", "../databases/database.db")
 	if err != nil {
 		return 2
 	}
-	data, err := db.Prepare("INSERT INTO backOfficer(password, accountID) VALUES (?, ?)")
+	data, err := db.Prepare("INSERT INTO backOfficer(password, salt, accountID) VALUES (?, ?, ?)")
 	if err != nil {
 		log.Fatal(err)
 	}
-	data.Exec(password, accountID)
+	data.Exec(password, salt, accountID)
 	defer data.Close()
 	return 0
 }
