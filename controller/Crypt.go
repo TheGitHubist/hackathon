@@ -1,5 +1,10 @@
 package hackathon
 
+import (
+	"fmt"
+	"math/rand"
+)
+
 func convStringByte(sentence string) []byte {
 	byteArray := []byte(sentence)
 	return byteArray
@@ -74,21 +79,24 @@ func turnHexa(n int) string {
 	return invertString(base)
 }
 
-func crypt(sentence string) string {
+func crypt(sentence string, ranNumber int) string {
 	ByteTable := convStringByte(sentence)
 	outsideTable := make([]byte, len(sentence))
 	finalTable := ByteTable
-	finalTable = nand(xor(not(xor(ByteTable, outsideTable)), not(or(and(ByteTable, outsideTable), not(and(ByteTable, outsideTable))))), not(xor(not(and(ByteTable, outsideTable)), or(ByteTable, outsideTable))))
+	finalTable = nand(xor(not(xor(ByteTable, outsideTable)), not(or(and(ByteTable, outsideTable), not(and(ByteTable, outsideTable))))), not(xor(not(and(ByteTable,
+		outsideTable)), or(ByteTable, outsideTable))))
 	finalValue := totalValueSum(finalTable)
-	return turnHexa(finalValue * (len(finalTable) * 404))
+	return turnHexa(finalValue * (len(finalTable) * ranNumber))
 }
 
 func FinalCrypt(sentence string) string {
 	inv := invertString(sentence)
 	cr := ""
+	ran := rand.Intn(999999999-1) + 1
+	fmt.Println(ran)
 	for i := 0; i < len(sentence); i++ {
-		cr += crypt(string(sentence[i]))
-		cr += crypt(string(inv[i]))
+		cr += crypt(string(sentence[i]), ran)
+		cr += crypt(string(inv[i]), ran)
 	}
 	return cr
 }
