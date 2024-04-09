@@ -1,9 +1,5 @@
 package hackathon
 
-import (
-	"strings"
-)
-
 func convStringByte(sentence string) []byte {
 	byteArray := []byte(sentence)
 	return byteArray
@@ -88,9 +84,11 @@ func crypt(sentence string) string {
 }
 
 func FinalCrypt(sentence string) string {
-	cr := crypt(sentence)
-	for _, s := range strings.Split(invertString(sentence), "") {
-		cr += crypt(s)
+	inv := invertString(sentence)
+	cr := ""
+	for i := 0; i < len(sentence); i++ {
+		cr += crypt(string(sentence[i]))
+		cr += crypt(string(inv[i]))
 	}
 	return cr
 }
