@@ -22,6 +22,8 @@
     padding: .55rem 1.5rem .45rem;
 }
 
+
+
 .subnavbar {
     height: 40px;
     background-color: #d3d3d3;
@@ -146,11 +148,29 @@ input {
 
 .mainContent h1 {
     position: relative;
-    top: 75%;
+    top: 70%;
     text-align: center;
     color: #07051a;
     height: inherit;
+}
 
+.box-background {
+    margin-top: 1em;
+    width: 70%;
+    padding: 5px 20px;
+    box-sizing: border-box;
+    border: 2px solid #C79B00;
+    border-radius: 15px;
+    color: #FFFFFF;
+    resize: none;
+    background-color:#FFD02C;
+    position: absolute;
+    right: 15%;
+}
+
+.box-background h1 {
+    color: #FFFFFF;
+    margin-bottom: 1em;
 }
 
 form:hover {
