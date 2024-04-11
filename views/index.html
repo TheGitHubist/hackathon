@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/site.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com%22%3E/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <script src="/static/js/site.js"></script>
+    <title>Noot Noot Tracker</title>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <!-- Container wrapper -->
+        <div class="container-fluid">
+            <!-- Navbar brand -->
+            <h1 class="navbar-brand" href="#">Noot Noot</h1>
+
+            <!-- Toggle button -->
+            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="fas fa-bars text-light"></i>
+            </button>
+
+            <!-- Collapsible wrapper -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto d-flex flex-row mt-3 mt-lg-0">
+                    <li class="container d-flex align-items-center justify-content-center">
+                        <span class="badge rounded-pill badge-notification bg-info">11</span>
+                        <img class="picto" src="/static/images/picto/notif.png">
+                    </li>
+                    <li class="nav-item text-center mx-2 mx-lg-1">
+                        <a class="nav-link" href="#!">
+                            <div>
+                                <img class="profilpic" src="/static/images/profilpic/default.png">
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <!-- Right links -->
+
+                <!-- Search form -->
+            </div>
+            <!-- Collapsible wrapper -->
+        </div>
+        <!-- Container wrapper -->
+    </nav>
+    <!-- Navbar -->
+    <div class="subnavbar">
+        <div class="categories">
+            <div class="col tab" onclick="redirectToPost('suivi')" id="suivi">
+                Suivi
+            </div>
+            <div class=" col tab" onclick="redirectToPost('support')" id="support">
+                Support
+            </div>
+            <div class="col tab" onclick="redirectToPost('historique')" id="historique">
+                Historique
+            </div>
+        </div>
+    </div>
+    <main>
+
+        <!-- Page Suivi -->
+        <section class="mainContent" id="suivi-container">
+            <h1 class="">Recherchez votre colis</h1>
+            <div class="search-content">
+
+                <form class="search" action="" id="s">
+                    <input type="search">
+                    <i class="fa fa-search"></i>
+                </form>
+            </div>
+        </section>
+
+
+        <!-- Page Support -->
+        <section class="mainContent" id="support-container">
+            <h1>Le support wtf la team</h1>
+        </section>
+
+
+    </main>
+
+    <section>
+        <!-- Footer -->
+        <footer class="bg-dark d-flex">
+            <!-- Grid container -->
+            <div class="container p-4">
+                <!--Grid row-->
+                <div class="row">
+                    <!--Grid column-->
+                    <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                        <h5 class="text-uppercase">Contacts</h5>
+                        <p>
+                            2 Esplanade de la Gare, 33110 Le Bouscat<br>
+                            Site officiel Ynov
+                        </p>
+                        <button type="button" class="btn btn-warning" data-mdb-ripple-init>Contacter par mail</button>
+                    </div>
+
+
+                    <!--Grid column-->
+                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                        <h5 class="text-uppercase">Auteurs :</h5>
+
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <p>DIARD Tristan</p>
+                            </li>
+                            <li>
+                                <p>Hugo Chamand</p>
+                            </li>
+                            <li>
+                                <p>Hugo Durand</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--Grid column-->
+
+                    <!--Grid column-->
+                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                        <h5 class="text-uppercase"><br></h5>
+
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <p>Sonita NOU</p>
+                            </li>
+                            <li>
+                                <p>Georges Le Goaster</p>
+                            </li>
+                            <li>
+                                <p>Killian Guillemot</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--Grid column-->
+                </div>
+                <!--Grid row-->
+            </div>
+            <!-- Grid container -->
+
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+                © 2024 Copyright:
+                La familia
+            </div>
+            <!-- Copyright -->
+        </footer>
+        <!-- Footer -->
+    </section>
+
+</body>
