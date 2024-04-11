@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	controllers "hackathon/controller"
 	"html/template"
 	"net/http"
 )
@@ -15,7 +16,7 @@ func main() {
 	// Gestion des fichiers statiques (CSS, JS, etc.)
 	fs := http.FileServer(http.Dir("../styles"))
 	http.Handle("/styles/", http.StripPrefix("/styles/", fs))
-
+	controllers.Init()
 	// Définition des gestionnaires pour les pages
 	http.HandleFunc("/home", UserPageHandler)
 	http.HandleFunc("/admin", adminHandler)
