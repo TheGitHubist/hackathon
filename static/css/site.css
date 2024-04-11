@@ -37,19 +37,24 @@
 
 }
 
-.subnavbar .col {
-    height: 40px;
-}
+
 
 .subnavbar .categories {
 
-    font-size: 25px;
+    font-size: 100%;
     font-weight: 600;
     width: 25%;
+    min-width: 360px;
     height: 100%;
+
     flex-direction: row;
     display: flex;
     justify-content: space-between;
+}
+
+.subnavbar .col {
+    height: 40px;
+    width: 0px;
 }
 
 .subnavbar .row {
@@ -57,7 +62,7 @@
 }
 
 .subnavbar .col {
-    background-color: #fdc500;
+    background-color: #d3d3d3;
 }
 
 html,
@@ -148,7 +153,7 @@ input {
 
 .mainContent h1 {
     position: relative;
-    top: 70%;
+    top: 25vh;
     text-align: center;
     color: #07051a;
     height: inherit;
