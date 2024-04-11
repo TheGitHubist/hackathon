@@ -216,8 +216,13 @@ main section {
 }
 
 .tab {
-    cursor: pointer
-}
+    cursor: pointer;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}   
 
 
 #support-container {
