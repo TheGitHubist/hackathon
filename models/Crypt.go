@@ -145,13 +145,21 @@ func AllForOne(hexa string) string {
 	return strconv.FormatInt(average, 16)
 }
 
+func power(n1 int, n2 int) int {
+	n3 := 1
+	for i := 0; i < n2; i++ {
+		n3 *= n1
+	}
+	return n3
+}
+
 func valueCalc(t []byte, table []int) (string, int) {
 	tVal := totalValueSum(t)
-	value := 1
-	diff := len(table)
+	value := 0
+	diff := len(table) - 1
 	hexaFinal := ""
 	for i := 0; i < len(table); i++ {
-		value *= (table[i] * (10 * diff))
+		value += (table[i] * power(10, diff))
 		diff -= 1
 	}
 	hexaFinal += strconv.FormatInt(int64(tVal*value*len(t)), 16)
@@ -161,6 +169,12 @@ func valueCalc(t []byte, table []int) (string, int) {
 		hexaFinal += strconv.FormatInt(int64(tVal*value*len(t)), 16)
 	}
 	hexaFinal = AllForOne(hexaFinal)
+	if value < 0 {
+		value *= (-1)
+	}
+	if HexaToInt(hexaFinal) < 0 {
+		hexaFinal = hexaFinal[1:]
+	}
 	return hexaFinal, value
 }
 
