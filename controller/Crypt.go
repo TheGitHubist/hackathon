@@ -1,7 +1,7 @@
 package hackathon
 
 import (
-	"fmt"
+	"bytes"
 	"math/rand"
 	"strconv"
 )
@@ -59,91 +59,133 @@ func not(t []byte) []byte {
 	return t2
 }
 
-func invertString(s string) string {
-	newS := ""
-	for s != "" {
-		newS += string(s[len(s)-1])
-		s = s[:len(s)-1]
+func shiftBytesLeft(a []byte) (dst []byte) {
+	n := len(a)
+	dst = make([]byte, n)
+	for i := 0; i < n-1; i++ {
+		dst[i] = a[i] << 1
+		dst[i] = (dst[i] & 0xfe) | (a[i+1] >> 7)
 	}
-	return newS
+	dst[n-1] = a[n-1] << 1
+	return dst
 }
 
-func power(n int, p int) int {
-	pow := 1
-	for i := 0; i < p; i++ {
-		pow *= n
+func operator(t []byte) ([]byte, []int) {
+	var tAll [][]byte
+	var tAllCopy [][]byte
+	var tFinal []byte
+	tCopy := t
+	tEmpty := make([]byte, len(t))
+	for !bytes.Equal(tCopy, tEmpty) {
+		tAll = append(tAll, tCopy)
+		tCopy = shiftBytesLeft(tCopy)
 	}
-	return pow
-}
-
-func crypt(sentence string, ranNumber int) string {
-	ByteTable := convStringByte(sentence)
-	outsideTable := make([]byte, len(sentence))
-	finalTable := ByteTable
-	finalTable = nand(xor(not(xor(ByteTable, outsideTable)), not(or(and(ByteTable, outsideTable), not(and(ByteTable, outsideTable))))), not(xor(not(and(ByteTable, outsideTable)), or(ByteTable, outsideTable))))
-	finalValue := totalValueSum(finalTable)
-	return strconv.FormatInt(int64(finalValue*(len(finalTable)*power(ranNumber, 4))), 16)
-}
-
-func FinalCrypt(sentence string) (string, int) {
-	inv := invertString(sentence)
-	cr := ""
-	ran := rand.Intn(999999999-999999) + 999999
-	fmt.Println(ran)
-	for i := 0; i < len(sentence); i++ {
-		cr += crypt(string(sentence[i]), ran)
-		cr += crypt(string(inv[i]), ran)
+	var operandsOrder []int
+	for i := 0; i < len(t); i++ {
+		operandsOrder = append(operandsOrder, rand.Intn(5-1)+1)
 	}
-	return gatherHexaToOne(cr), ran
-}
-
-func averageHexa(hexa1 string, hexa2 string) string {
-	hexaChar := "0123456789abcdef"
-	newHexa := ""
-	for i, c := range hexa1 {
-		ch1 := 0
-		ch2 := 0
-		for j := 0; j < len(hexaChar); j++ {
-			if hexaChar[j] == byte(c) {
-				ch1 = j
-			} else if i < len(hexa2) && hexaChar[j] == hexa2[i] {
-				ch2 = j
+	for i, o := range operandsOrder {
+		switch o {
+		case 1:
+			if tAllCopy == nil {
+				tAllCopy = append(tAllCopy, nand(tAll[i], tAll[i+1]))
+			} else {
+				tAllCopy = append(tAllCopy, nand(tAllCopy[i-1], tAll[i]))
+			}
+		case 2:
+			if tAllCopy == nil {
+				tAllCopy = append(tAllCopy, xor(tAll[i], tAll[i+1]))
+			} else {
+				tAllCopy = append(tAllCopy, xor(tAllCopy[i-1], tAll[i]))
+			}
+		case 3:
+			if tAllCopy == nil {
+				tAllCopy = append(tAllCopy, and(tAll[i], tAll[i+1]))
+			} else {
+				tAllCopy = append(tAllCopy, and(tAllCopy[i-1], tAll[i]))
+			}
+		case 4:
+			if tAllCopy == nil {
+				tAllCopy = append(tAllCopy, or(tAll[i], tAll[i+1]))
+			} else {
+				tAllCopy = append(tAllCopy, or(tAllCopy[i-1], tAll[i]))
 			}
 		}
-		newHexa += strconv.FormatInt(int64((ch1+ch2)/2), 16)
 	}
-	return newHexa
+	tFinal = tAllCopy[len(tAllCopy)-1]
+	if rand.Intn(2-1)+1 == 1 {
+		return tFinal, operandsOrder
+	} else {
+		return not(tFinal), operandsOrder
+	}
 }
 
-func gatherHexaToOne(hexa string) string {
-	table := []string{}
-	sign := ""
-	for i, c := range hexa {
-		sign += string(c)
-		if len(sign) == 64 {
-			table = append(table, sign)
-			sign = ""
-		} else if i == len(hexa)-1 {
-			table = append(table, sign)
-			sign = ""
+func AllForOne(hexa string) string {
+	var hexas []string
+	s := ""
+	for _, c := range hexa {
+		s += string(c)
+		if len(s) == 15 {
+			hexas = append(hexas, s)
+			s = ""
 		}
 	}
-	newHexa := ""
-	if len(table) == 1 {
-		return table[0]
-	}
-	for len(table) > 0 {
-		if newHexa == "" {
-			newHexa += averageHexa(table[len(table)-1], table[len(table)-2])
-			table = table[:len(table)-1]
-			table = table[:len(table)-1]
-		} else {
-			if len(table[len(table)-1]) < 64 {
-				break
-			}
-			newHexa += averageHexa(newHexa, table[len(table)-1])
-			table = table[:len(table)-1]
+	var ints []int64
+	for _, h := range hexas {
+		if HexaToInt(h) == 0 {
+			return ""
 		}
+		ints = append(ints, HexaToInt(h))
 	}
-	return newHexa
+	var average int64 = 0
+	for _, n := range ints {
+		average += n
+	}
+	average /= int64(len(ints))
+	return strconv.FormatInt(average, 16)
+}
+
+func valueCalc(t []byte, table []int) (string, int) {
+	tVal := totalValueSum(t)
+	value := 1
+	diff := len(table)
+	hexaFinal := ""
+	for i := 0; i < len(table); i++ {
+		value *= (table[i] * (10 * diff))
+		diff -= 1
+	}
+	hexaFinal += strconv.FormatInt(int64(tVal*value*len(t)), 16)
+	for i := 1; i < len(t); i++ {
+		byyte := convStringByte(RandStringRunes(len(t)))
+		tVal = totalValueSum(byyte)
+		hexaFinal += strconv.FormatInt(int64(tVal*value*len(t)), 16)
+	}
+	hexaFinal = AllForOne(hexaFinal)
+	return hexaFinal, value
+}
+
+func HexaToInt(hexa string) int64 {
+	value, err := strconv.ParseInt(hexa, 16, 64)
+	if err != nil {
+		return 0
+	}
+	return value
+}
+
+func RandStringRunes(n int) string {
+	letterRunes := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMMNOPQRSTUVWXYZ0123456789&+/*%$!;:.,?~"
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = rune(letterRunes[rand.Intn(len(letterRunes))])
+	}
+	return string(b)
+}
+
+func Crypt(s string) string {
+	cryptedBytes, operators := operator(convStringByte(s))
+	value, operator := valueCalc(cryptedBytes, operators)
+	if value == "" {
+		return Crypt(s)
+	}
+	return strconv.FormatInt(int64(operator), 16) + value
 }
