@@ -47,7 +47,7 @@
 
     flex-direction: row;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .subnavbar .col {
@@ -202,5 +202,9 @@ main section {
 
 
 #support-container {
+    display: none;
+}
+
+#suivi-container {
     display: none;
 }

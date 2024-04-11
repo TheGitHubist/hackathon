@@ -1,4 +1,4 @@
-package hackathon
+package models
 
 import (
 	"bytes"
