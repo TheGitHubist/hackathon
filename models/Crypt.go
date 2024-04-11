@@ -186,6 +186,26 @@ func HexaToInt(hexa string) int64 {
 	return value
 }
 
+func invertTable(table []int) []int {
+	var newVar []int
+	for i := len(table) - 1; i >= 0; i-- {
+		newVar = append(newVar, table[i])
+	}
+	return newVar
+}
+
+func Compare(trys string, salt int, passwordHashed string) bool {
+	var splited []int
+	for salt > 9 {
+		splited = append(splited, salt%10)
+		salt /= 10
+	}
+	splited = append(splited, salt)
+	splited = invertTable(splited)
+	value, operator := valueCalc(convStringByte(trys), splited)
+	return strconv.FormatInt(int64(operator), 16)+value == passwordHashed
+}
+
 func RandStringRunes(n int) string {
 	letterRunes := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMMNOPQRSTUVWXYZ0123456789&+/*%$!;:.,?~"
 	b := make([]rune, n)
