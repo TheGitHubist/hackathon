@@ -181,11 +181,11 @@ func RandStringRunes(n int) string {
 	return string(b)
 }
 
-func Crypt(s string) string {
+func Crypt(s string) (string, int) {
 	cryptedBytes, operators := operator(convStringByte(s))
 	value, operator := valueCalc(cryptedBytes, operators)
 	if value == "" {
 		return Crypt(s)
 	}
-	return strconv.FormatInt(int64(operator), 16) + value
+	return strconv.FormatInt(int64(operator), 16) + value, operator
 }
