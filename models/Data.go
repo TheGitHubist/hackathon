@@ -15,7 +15,7 @@ func Init() {
 
 func LoadDataBase() *sql.DB {
 	db, _ := sql.Open("sqlite3", "data.db")
-	data, err := db.Prepare("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL UNIQUE, password TEXT NOT NULL, salt INTEGER NOT NULL, uuid TEXT NOT NULL UNIQUE)")
+	data, err := db.Prepare("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL UNIQUE, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, uuid TEXT NOT NULL UNIQUE)")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -38,25 +38,21 @@ func LoadDataBase() *sql.DB {
 	return db
 }
 
-func NewUser(email string, password int, salt int, uuid string) int {
+func NewUser(username string, email string, password string, uuid string) int {
 
 	// returns 0 if everything's fine, 1 for pseudo or uuid not unique, 2 for another db error
-	db, err := sql.Open("sqlite3", "")
-	if err != nil {
-		return 2
-	}
-	rows, err := db.Query("SELECT email FROM user")
+	rows, err := DB.Query("SELECT email FROM user WHERE username = ?", username)
 	if err != nil {
 		return 2
 	}
 	defer rows.Close()
 	for rows.Next() {
 	}
-	data, err := db.Prepare("INSERT INTO user(email, password, uuid) VALUES (?, ?, ?, ?)")
+	data, err := DB.Prepare("INSERT INTO user(username, email, password, uuid) VALUES (?, ?, ?, ?)")
 	if err != nil {
 		log.Fatal(err)
 	}
-	data.Exec(email, password, salt, uuid)
+	data.Exec(username, email, password, uuid)
 	defer data.Close()
 	return 0
 }

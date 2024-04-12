@@ -16,31 +16,27 @@
         <h1>FORUM</h1>
     </header>
     <main>
-        <form action="/test2" method="post">
-            <form action="/test" method="post">
-                <div class="login-container">
-                    <div class="login">
-                        <img src="/assets/nutnutprofile.png">
-                        <h2>Se connecter :</h2>
-                        <label for="username">Pseudo/E-mail :</label>
-                        <input class="text-write" type="text" id="email" id="username" name="email"
-                            placeholder="Pseudo ou e-mail" required>
-                        <label for="password">Mot de passe :</label>
-                        <input class="text-write" type="password" id="password" name="password"
-                            placeholder="Mot de passe" required>
-                        <div class="contain-button">
-                            <button class="button-click" role="button" type="submit"><span
-                                    class="text">Connexion</span></button>
-                        </div>
-                        <div class="error-message">
-                            {{ .Message}}
-                        </div>
-                        <div class="login-switch">
-                            Pas de compte ? <a href="/register"><b>Créer un compte</b></a>
-                        </div>
+        <form action="/logintry" method="post">
+            <div class="login-container">
+                <div class="login">
+                    <img src="/assets/nutnutprofile.png">
+                    <h2>Se connecter :</h2>
+                    <label for="username">Pseudo/E-mail :</label>
+                    <input class="text-write" type="text" id="username" name="username" placeholder="Pseudo ou e-mail"
+                        required>
+                    <label for="password">Mot de passe :</label>
+                    <input class="text-write" type="password" id="password" name="password" placeholder="Mot de passe"
+                        required>
+                    <div class="contain-button">
+                        <button class="button-click" role="button" type="submit"><span
+                                class="text">Connexion</span></button>
+                    </div>
+                    <div class="login-switch">
+                        Pas de compte ? <a href="/register"><b>Créer un compte</b></a>
                     </div>
                 </div>
-            </form>
+            </div>
+        </form>
     </main>
     <footer></footer>
 </body>
