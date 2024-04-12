@@ -15,7 +15,7 @@ func Init() {
 
 func LoadDataBase() *sql.DB {
 	db, _ := sql.Open("sqlite3", "data.db")
-	data, err := db.Prepare("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL UNIQUE, password TEXT NOT NULL, salt INTEGER NOT NULL, uuid TEXT NOT NULL UNIQUE)")
+	data, err := db.Prepare("CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY, username TEXT, prenom TEXT, nom TEXT, age INTEGER, telephone TEXT, nombre_commandes TEXT, nombre_covoiturage TEXT, gofast BOOLEAN, km_pracouru INTEGER, pays TEXT, adresse TEXT, ville TEXT, code_postal TEXT)")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -30,10 +30,12 @@ func LoadDataBase() *sql.DB {
 		log.Fatal(err)
 	}
 	data.Exec()
-	data, err = db.Prepare("CREATE TABLE IF NOT EXISTS product(id INTEGER PRIMARY KEY AUTOINCREMENT, number TEXT NOT NULL, status INTEGER NOT NULL, officerID BLOB NOT NULL, ownerID BLOB NOT NULL, FOREIGN KEY (officerID) REFERENCES backOfficer(id), FOREIGN KEY (ownerID) REFERENCES user(id))")
+	data, err = db.Prepare("CREATE TABLE IF NOT EXISTS colis(id INTEGER PRIMARY KEY AUTOINCREMENT, number INTEGER NOT NULL, destination TEXT,prix FLOAT, poids INTERGER)")
 	if err != nil {
 		log.Fatal(err)
 	}
+	data.Exec()
+	data, _ = db.Prepare("CREATE TABLE IF NOT EXISTS covoiturage(id INTEGER PRIMARY KEY, pos_depart TEXT, destination TEXT , pos_actuelle TEXT)")
 	data.Exec()
 	return db
 }
