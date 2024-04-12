@@ -22,6 +22,54 @@
     padding: .55rem 1.5rem .45rem;
 }
 
+.button-click {
+    align-items: center;
+    background-image: linear-gradient(144deg, #dade00, #f3a042 50%, #ebb000);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(252, 202, 65, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-size: 10px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.button-click:active,
+.button-click:hover {
+    outline: 0;
+}
+
+.button-click span {
+    background-color: rgb(24, 21, 3);
+    padding: 10px 15px;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+}
+
+.button-click:hover span {
+    background: none;
+}
+
+@media (min-width: 768px) {
+    .button-click {
+        font-size: 17px;
+        min-width: 120px;
+    }
+}
+
 
 
 .subnavbar {
@@ -151,8 +199,9 @@ input {
     right: 0;
 }
 
-.mainContent h1 {
+.suiviContent h1 {
     position: relative;
+
     top: 25vh;
     text-align: center;
     color: #07051a;
@@ -162,13 +211,13 @@ input {
 .box-background {
     margin-top: 1em;
     width: 70%;
-    padding: 5px 20px;
+    padding: 85px 20px;
     box-sizing: border-box;
     border: 2px solid #C79B00;
     border-radius: 15px;
     color: #FFFFFF;
     resize: none;
-    background-color:#FFD02C;
+    background-color: #FFD02C;
     position: absolute;
     right: 15%;
 }
@@ -176,6 +225,36 @@ input {
 .box-background h1 {
     color: #FFFFFF;
     margin-bottom: 1em;
+    text-align: center;
+}
+
+.profil-background {
+    margin-top: 1em;
+    width: 60%;
+    padding: 85px 20px;
+    padding-top: 1em;
+    box-sizing: border-box;
+    border: 2px solid #FDC500;
+    border-radius: 15px;
+    color: #000000;
+    resize: none;
+    background-color: #FDFF92;
+    position: absolute;
+    right: 20%;
+}
+
+.profil-topcol {
+    columns: 3;
+}
+
+.jean-img img {
+    width: 100px;
+    border-radius: 100%;
+    left: 5em;
+}
+
+.jean-profil {
+    right: 10em;
 }
 
 form:hover {
@@ -222,7 +301,7 @@ main section {
     justify-content: center;
     align-items: center;
     height: 100%;
-}   
+}
 
 
 #support-container {
@@ -230,5 +309,9 @@ main section {
 }
 
 #suivi-container {
+    display: none;
+}
+
+#profil-container {
     display: none;
 }

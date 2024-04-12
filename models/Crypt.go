@@ -2,6 +2,8 @@ package models
 
 import (
 	"bytes"
+	"crypto/sha256"
+	"encoding/hex"
 	"math/rand"
 	"strconv"
 )
@@ -222,4 +224,11 @@ func Crypt(s string) (string, int) {
 		return Crypt(s)
 	}
 	return strconv.FormatInt(int64(operator), 16) + value, operator
+}
+
+func HashString(str string) string {
+	hasher := sha256.New()
+	hasher.Write([]byte(str))
+	hashedBytes := hasher.Sum(nil)
+	return hex.EncodeToString(hashedBytes)
 }

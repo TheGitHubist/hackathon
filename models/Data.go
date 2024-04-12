@@ -40,25 +40,21 @@ func LoadDataBase() *sql.DB {
 	return db
 }
 
-func NewUser(email string, password int, salt int, uuid string) int {
+func NewUser(username string, email string, password string, uuid string) int {
 
 	// returns 0 if everything's fine, 1 for pseudo or uuid not unique, 2 for another db error
-	db, err := sql.Open("sqlite3", "")
-	if err != nil {
-		return 2
-	}
-	rows, err := db.Query("SELECT email FROM user")
+	rows, err := DB.Query("SELECT email FROM user WHERE username = ?", username)
 	if err != nil {
 		return 2
 	}
 	defer rows.Close()
 	for rows.Next() {
 	}
-	data, err := db.Prepare("INSERT INTO user(email, password, uuid) VALUES (?, ?, ?, ?)")
+	data, err := DB.Prepare("INSERT INTO user(username, email, password, uuid) VALUES (?, ?, ?, ?)")
 	if err != nil {
 		log.Fatal(err)
 	}
-	data.Exec(email, password, salt, uuid)
+	data.Exec(username, email, password, uuid)
 	defer data.Close()
 	return 0
 }
