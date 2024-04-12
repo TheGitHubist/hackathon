@@ -97,7 +97,7 @@
 
     flex-direction: row;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .subnavbar .col {
@@ -295,14 +295,23 @@ main section {
 }
 
 .tab {
-    cursor: pointer
-}
+    cursor: pointer;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}   
 
 
 #support-container {
     display: none;
 }
 
+<<<<<<< HEAD
 #profil-container {
+=======
+#suivi-container {
+>>>>>>> 06ece1601ed806d3e3cbe19d348a24a0741e116a
     display: none;
 }

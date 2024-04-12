@@ -1,4 +1,5 @@
 function openCategory(category) {
+    localStorage.setItem("activeTab", category);
     var i;
     var x = document.getElementsByClassName("tab"); // Utilisation de getElementsByClassName au lieu de getElementById
     for (i = 0; i < x.length; i++) {
@@ -12,6 +13,7 @@ function openCategory(category) {
     document.getElementById(category).style.display = "block"; // Correction ici : getElementById au lieu de getElementBy
 
     document.getElementById(category + "-container").style.display = "block"
+
 }
 
 
@@ -22,7 +24,14 @@ function redirectToPost(id) {
 }
 
 
-function changeColours() {
-    var cols = document.querySelectorAll('.subnavbar .col');
-    alert(col)
+
+
+
+window.onload = function () {
+    const activeTab = localStorage.getItem("activeTab");
+    if (activeTab) {
+        redirectToPost(activeTab)
+    } else {
+        redirectToPost("suivi")
+    }
 }

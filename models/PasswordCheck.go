@@ -1,4 +1,4 @@
-package hackathon
+package models
 
 func doesContainDigits(password string) bool {
 	for _, char := range password {
